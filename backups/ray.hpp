@@ -1,0 +1,22 @@
+#pragma once
+#include "vec3.hpp"
+#include "color.hpp"
+
+class ray {
+    private:
+    point3 origin_;
+    vec3 direction_;
+
+    public:
+      ray();
+  
+      ray(const point3& origin, const vec3& direction);
+  
+      const point3& origin() const;
+      const vec3& direction() const;
+  
+      point3 at(double t) const;
+
+      color ray_color(const ray& r);
+  };
+  

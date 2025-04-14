@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -O3 -Wall -std=c++11 -Wno-missing-braces
 LDFLAGS = -L/opt/homebrew/Cellar/raylib/5.5/lib -lraylib
-INCLUDES = -I/opt/homebrew/Cellar/raylib/5.5/include
+INCLUDES = -I/opt/homebrew/Cellar/raylib/5.5/include -I./include
 
-SRC = $(wildcard *.cpp)
+SRC = $(wildcard ./src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 TARGET = main
 

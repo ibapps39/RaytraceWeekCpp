@@ -1,4 +1,4 @@
-#include "main.hpp"
+#include "make_ppm.hpp"
 
 void makeExamplePPM(unsigned char min_val, unsigned char max_val)
 {
