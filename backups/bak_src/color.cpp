@@ -1,4 +1,3 @@
-#pragma once
 #include "color.hpp"
 
 //Convert vector colors from [0,1] to [0,255], write

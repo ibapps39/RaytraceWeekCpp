@@ -6,7 +6,7 @@ void makeExamplePPM(unsigned char min_val, unsigned char max_val)
     uint image_height = 250;
 
     unsigned char rgb_max_value = max_val;
-    unsigned char rgb_min_value = min_val;
+    //unsigned char rgb_min_value = min_val;
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n" << int(rgb_max_value) << "\n";
     for (size_t j = 0; j<image_height; j++)

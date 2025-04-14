@@ -12,6 +12,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS) || (make clean && exit 1)  # Clean on linking failure
+	mv ./$(TARGET) ./build
 	rm -f $(OBJ)  # Clean up object files after building
 
 %.o: %.cpp

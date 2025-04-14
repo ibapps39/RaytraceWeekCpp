@@ -16,7 +16,6 @@ class ray {
       const vec3& direction() const;
   
       point3 at(double t) const;
-
-      color ray_color(const ray& r);
   };
+color ray_color(const ray& r);
   

@@ -21,7 +21,22 @@ viewport::viewport() :
 {}
 void viewport::render()
 {
-    
+    std::cout << "P3" << std::endl;
+    std::cout << image_width << " " << image_height << std::endl;
+    std::cout << "255" << std::endl;
+
+    for (int j = 0; j < image_height; j++) {
+        std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+        for (int i = 0; i < image_width; i++) {
+            auto pixel_center = pixel00_loc + (i * pixel_delta_x) + (j * pixel_delta_y);
+            auto ray_direction = pixel_center - camera_center;
+            ray r(camera_center, ray_direction);
+
+            color pixel_color = ray_color(r);
+            write_color(std::cout, pixel_color);
+        }
+    }
+    std::clog << "\rDone.                 \n";
 }
 // class viewport 
 // {

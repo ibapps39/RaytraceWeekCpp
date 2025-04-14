@@ -10,7 +10,8 @@ ray::ray(const point3& origin, const vec3& direction) : origin_(origin), directi
 point3 ray::at(double t) const {
     return origin_ + t*direction_;
 }
-color ray::ray_color(const ray& r)
+
+color ray_color(const ray& r)
 {
     return color(0,0,0);
 }
