@@ -1,6 +1,6 @@
-#include "make_ppm.hpp"
+#include "make_example_ppm.hpp"
 
-void makeExamplePPM(unsigned char min_val, unsigned char max_val)
+void make_example_ppm(unsigned char min_val, unsigned char max_val)
 {
     uint image_width = 250;
     uint image_height = 250;
@@ -14,9 +14,11 @@ void makeExamplePPM(unsigned char min_val, unsigned char max_val)
         std::clog << "\rScanlines remaining: " << (image_height - j) << "\n" << std::flush;
         for (size_t i = 0; i<image_width; i++)
         {
-            auto r = int(double(i)/(image_width-1) * (rgb_max_value+0.999));
-            auto g = int(double(j)/(image_height-1) * (rgb_max_value+0.999));
-            std::cout << r << ' ' << g << ' ' << "0" << "\n";
+            int r = int(float(i)/(image_width-1) * (rgb_max_value+0.999));
+            int g = int(float(j)/(image_height-1) * (rgb_max_value+0.999));
+            int b = int(float(i+j)/(image_width-1)) * (rgb_max_value+0.999);
+
+            std::cout << r << ' ' << g << ' ' << b << std::endl;
         }
     }
     std::clog << "\rDone.                 \n";

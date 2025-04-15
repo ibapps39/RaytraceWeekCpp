@@ -3,15 +3,15 @@
 #include "ray.hpp"
 
 // Needs to be set for calculating height. Currently 800.0f
-#define DEFAULT_VIEW_WIDTH 800.0f
+#define DEFAULT_VIEW_WIDTH (800.0f)
 // 1.77777777778f
-#define HARDCODED_ASPECT_RATIO 16.0f / 9.0f
+#define HARDCODED_ASPECT_RATIO (16.0f / 9.0f)
 // DEFAULT_VIEW_WIDTH / (HARDCODED_ASPECT_RATIO). Easier to maintain desired aspect ration if calculated
-#define DEFAULT_VIEW_HEIGHT DEFAULT_VIEW_WIDTH / (HARDCODED_ASPECT_RATIO)
+#define DEFAULT_VIEW_HEIGHT ( (DEFAULT_VIEW_WIDTH) / (HARDCODED_ASPECT_RATIO) )
 // 1.77777777778f
 #define HARDCODED_ASPECT_RATIO_VALUE 1.77777777778f
 // 16:9 ~= 1.77..8
-#define DEFAULT_ASPECT_RATIO DEFAULT_VIEW_WIDTH/DEFAULT_VIEW_HEIGHT 
+#define DEFAULT_ASPECT_RATIO ( (DEFAULT_VIEW_WIDTH) / (DEFAULT_VIEW_HEIGHT) )
 
 #define MAX_P3_COLOR_SIZE 255
 
@@ -20,22 +20,27 @@ void make_viewport();
 class viewport
 {
     private:
+        //
         float aspect_ratio;
-        float focal_length;
+        //
+        int image_width;
+        // Calculate the image height, and ensure that it's at least 1.
+        int image_height;
+        // Viewport widths less than one are ok since they are real valued.
         float viewport_height;
         float viewport_width;
-
-        int image_width;
-        int image_height;
-
+        //
+        float focal_length;
         point3 camera_center;
-
+        //
         vec3 viewport_xv;
         vec3 viewport_yv;
+        //
         vec3 pixel_delta_x;
         vec3 pixel_delta_y;
-        
+        //
         vec3 viewport_upper_left;
+        //
         point3 pixel00_loc;
 
     public:

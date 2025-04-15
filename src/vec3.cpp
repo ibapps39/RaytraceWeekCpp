@@ -37,13 +37,13 @@ vec3& vec3::operator/=(float t) {
     return *this *= 1.0f / t;
 }
 
+float vec3::length_squared() const {
+    return ( (e[0]*e[0]) + (e[1]*e[1]) + (e[2]*e[2]) );
+}
+
 // Length
 float vec3::length() const {
     return std::sqrt(length_squared());
-}
-
-float vec3::length_squared() const {
-    return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
 }
 
 // Utility functions
@@ -88,7 +88,7 @@ vec3 cross(const vec3& u, const vec3& v) {
         u.e[0] * v.e[1] - u.e[1] * v.e[0]
     );
 }
-
+// NormalIze
 vec3 unit_vector(const vec3& v) {
     return v / v.length();
 }
