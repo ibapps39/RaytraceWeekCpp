@@ -1,4 +1,4 @@
-#include "ray.hpp"
+#include "ray.h"
 
 const point3& ray::origin() const  { return origin_; }
 const vec3& ray::direction() const { return direction_; }

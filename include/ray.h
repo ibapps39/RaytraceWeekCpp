@@ -1,6 +1,6 @@
 #pragma once
-#include "vec3.hpp"
-#include "color.hpp"
+#include "vec3.h"
+#include "color.h"
 
 class ray {
     private:
@@ -15,7 +15,7 @@ class ray {
       const point3& origin() const;
       const vec3& direction() const;
   
-      point3 at(double t) const;
+      point3 at(float t) const;
   };
 color ray_color(const ray& r);
   

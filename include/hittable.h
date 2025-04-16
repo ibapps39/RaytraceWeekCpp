@@ -1,5 +1,5 @@
-#include "vec3.hpp"
-#include "ray.hpp"
+#include "vec3.h"
+#include "ray.h"
 class hit_record
 {
     public:

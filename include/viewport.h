@@ -1,6 +1,6 @@
 #pragma once
-#include "vec3.hpp"
-#include "ray.hpp"
+#include "vec3.h"
+#include "ray.h"
 
 // Needs to be set for calculating height. Currently 800.0f
 #define DEFAULT_VIEW_WIDTH (800.0f)

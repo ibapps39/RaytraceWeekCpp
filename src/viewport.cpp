@@ -1,4 +1,4 @@
-#include "viewport.hpp"
+#include "viewport.h"
 #include "sphere.h"
 viewport::viewport() :
     // set the aspect ration to float precision

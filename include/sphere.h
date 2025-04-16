@@ -1,8 +1,8 @@
 #pragma once
-#include "vec3.hpp"
-#include "color.hpp"
-#include "ray.hpp"
-#include "hittable.hpp"
+#include "vec3.h"
+#include "color.h"
+#include "ray.h"
+#include "hittable.h"
 
 class sphere : public hittable
 {

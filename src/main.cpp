@@ -1,8 +1,8 @@
-#include "color.hpp"
-#include "ray.hpp"
-#include "vec3.hpp"
-#include "viewport.hpp"
-#include "make_example_ppm.hpp"
+#include "color.h"
+#include "ray.h"
+#include "vec3.h"
+#include "viewport.h"
+#include "make_example_ppm.h"
 int main()
 {
     //make_example_ppm(0, 255);

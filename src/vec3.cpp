@@ -1,4 +1,4 @@
-#include "vec3.hpp"
+#include "vec3.h"
 
 // Constructors
 vec3::vec3() : e{0, 0, 0} {}

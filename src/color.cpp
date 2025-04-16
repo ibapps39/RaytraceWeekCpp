@@ -1,4 +1,4 @@
-#include "color.hpp"
+#include "color.h"
 
 //Convert vector colors from [0,1] to [0,255], write
 void write_color(std::ostream& out, const color& pixel_color) {
