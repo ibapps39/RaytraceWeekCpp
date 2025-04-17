@@ -1,7 +1,8 @@
 #pragma once
-#include "vec3.h"
-#include "color.h"
-#include "ray.h"
+// #include "vec3.h"
+// #include "color.h"
+// #include "ray.h"
+#include "rt_common.h"
 #include "hittable.h"
 
 class sphere : public hittable
@@ -11,10 +12,12 @@ class sphere : public hittable
         float radius;
     public:
         sphere(const point3& center_pos, float radius);
-        bool hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_rec) const override;
+        bool hit(const ray& r, interval ray_t, hit_record& hit_rec) const override;
 };
 float hit_sphere(const point3& center, float radius, const ray& r);
 color sphere_ray_color(const ray& r);
+
+// bool hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& rec) const override;
 // class sphere : public hittable {
 //     public:
 //       bool hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const override {

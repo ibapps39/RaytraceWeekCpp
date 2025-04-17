@@ -19,40 +19,4 @@ color ray_color(const ray& r)
     return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
     
 }
-
-
-/////
-// class ray
-// {
-//     private:
-//         point3 origin;
-//         vec3 direction;
-//     public:
-//     ray() {}
-//     ray(point3 origin, const vec3& direction);
-//     color ray_color(const ray& r) {}
-    
-//     const point3 origin() const;
-//     const vec3& direction() const;
-//     point3 at(float t) const;
-    
-// };
-
-// class ray {
-//     public:
-//       ray() {}
-  
-//       ray(const point3& origin, const vec3& direction) : orig(origin), dir(direction) {}
-  
-//       const point3& origin() const  { return orig; }
-//       const vec3& direction() const { return dir; }
-  
-//       point3 at(double t) const {
-//           return orig + t*dir;
-//       }
-  
-//     private:
-//       point3 orig;
-//       vec3 dir;
-//   };
   
