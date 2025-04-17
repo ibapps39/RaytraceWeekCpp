@@ -4,7 +4,7 @@
 sphere::sphere(const point3& center_pos, float radius) : center_pos(center_pos), radius(std::fmaxf(0.0f, radius))
 {}
 
-bool sphere::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_rec) const 
+bool sphere::hit(const ray& r, interval ray_t, hit_record& hit_rec) const 
 {
     vec3 center_to_surface = center_pos-r.origin();
     float a = r.direction().length_squared();
@@ -17,22 +17,59 @@ bool sphere::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_r
     float sqrt_det = std::sqrtf(discriminant);
 
     float root = (h - sqrt_det) / a;
-    bool outsideCircle = (root <= ray_tmin || root >= ray_tmax);
-    if (outsideCircle)
+    bool surrounds_root = ray_t.surrounds(root);
+    if (!surrounds_root)
     {
         root = (h + sqrt_det)/a;
-        if (outsideCircle)
+        if (!surrounds_root)
         {
             return false;
         }
     }
     hit_rec.t = root;
+    //hit position
     hit_rec.p = r.at(hit_rec.t);
-    hit_rec.normal = (hit_rec.p - center_pos) / radius;
+    //hit_rec.normal = (hit_rec.p - center_pos) / radius;
+    // Sphere, so can norm. w/radius
     vec3 outward_normal = (hit_rec.p - center_pos) / radius;
+    // record a hit and by how much, and if a surface. Records surface normals
     hit_rec.set_face_normal(r, outward_normal);
     return true;
 }
+
+
+// bool sphere::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_rec) const 
+// {
+//     vec3 center_to_surface = center_pos-r.origin();
+//     float a = r.direction().length_squared();
+//     float h = dot(r.direction(), center_to_surface);
+//     float c = center_to_surface.length_squared() - (radius*radius);
+//     float discriminant = h*h - a*c;
+
+//     if (discriminant < 0) { return false; }
+
+//     float sqrt_det = std::sqrtf(discriminant);
+
+//     float root = (h - sqrt_det) / a;
+//     bool outsideCircle = (root <= ray_tmin || root >= ray_tmax);
+//     if (outsideCircle)
+//     {
+//         root = (h + sqrt_det)/a;
+//         if (outsideCircle)
+//         {
+//             return false;
+//         }
+//     }
+//     hit_rec.t = root;
+//     //hit position
+//     hit_rec.p = r.at(hit_rec.t);
+//     //hit_rec.normal = (hit_rec.p - center_pos) / radius;
+//     // Sphere, so can norm. w/radius
+//     vec3 outward_normal = (hit_rec.p - center_pos) / radius;
+//     // record a hit and by how much, and if a surface. Records surface normals
+//     hit_rec.set_face_normal(r, outward_normal);
+//     return true;
+// }
 
 // bool hit_sphere(const point3& center, float radius, const ray& r)
 // {
@@ -68,7 +105,7 @@ color sphere_ray_color(const ray& r)
     {
         /// N = unit length vec
         vec3 N = unit_vector(r.at(t) - sphere_pos); // P(t) - C term
-        return 0.5 * color(N.x()+1, N.y()+1, N.z()+1); // map xyz to rgb
+        return 0.5 * color(N.x()+1, N.y()+1, N.z()+1); // map xyz to rgb, norm w/radius
     }
     vec3 unit_direction = unit_vector(r.direction());
     float alpha = 0.5f * (unit_direction.y() + 1.0);

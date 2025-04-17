@@ -1,5 +1,7 @@
-#include "vec3.h"
-#include "ray.h"
+#pragma once
+// #include "vec3.h"
+// #include "ray.h"
+#include "rt_common.h"
 class hit_record
 {
     public:
@@ -14,5 +16,6 @@ class hittable
 {
     public:
         virtual ~hittable() = default;
-        virtual bool hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& rec) const = 0;
+        //virtual bool hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& rec) const = 0;
+        virtual bool hit(const ray& r, interval ray_t, hit_record& rec) const = 0;
 };

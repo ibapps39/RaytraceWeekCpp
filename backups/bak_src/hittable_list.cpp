@@ -13,15 +13,15 @@ void hittable_list::add(std::shared_ptr<hittable> object)
     objects.push_back(object);
 }
 
-bool hittable_list::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_rec) const
+bool hittable_list::hit(const ray& r, interval ray_t, hit_record& hit_rec) const
 {
     hit_record temp_rec;
     bool hit_anything = false;
-    float closest_so_far = ray_tmax;
+    float closest_so_far = ray_t.max;
 
     for (const auto& object : objects)
     {
-        if (object->hit(r, ray_tmin, ray_tmax, temp_rec))
+        if (object->hit(r, interval(ray_t.min, closest_so_far), temp_rec))
         {
             hit_anything = true;
             closest_so_far = temp_rec.t;
@@ -30,3 +30,23 @@ bool hittable_list::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record
     }
     return hit_anything;
 }
+
+
+
+// bool hittable_list::hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& hit_rec) const
+// {
+//     hit_record temp_rec;
+//     bool hit_anything = false;
+//     float closest_so_far = ray_tmax;
+
+//     for (const auto& object : objects)
+//     {
+//         if (object->hit(r, ray_tmin, closest_so_far, temp_rec))
+//         {
+//             hit_anything = true;
+//             closest_so_far = temp_rec.t;
+//             hit_rec = temp_rec;
+//         }
+//     }
+//     return hit_anything;
+// }
