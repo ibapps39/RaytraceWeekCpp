@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <cstdlib>
 
 #include "vec3.h"
 #include "color.h"
@@ -20,3 +21,11 @@ inline float degrees_to_radians(float degrees)
     return (degrees*(float)pi) / 180.0f;
 }
 
+inline float rand_f()
+{
+    return float(rand() / (RAND_MAX + 1.0f));
+}
+inline float rand_f(float min, float max)
+{
+    return min + (max-min)*rand_f();
+}
