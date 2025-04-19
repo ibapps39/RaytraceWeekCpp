@@ -1,5 +1,5 @@
 #include "vec3.h"
-
+#include "rt_common.h"
 // Constructors
 vec3::vec3() : e{0, 0, 0} {}
 vec3::vec3(float e0, float e1, float e2) : e{e0, e1, e2} {}
@@ -51,44 +51,75 @@ std::ostream& operator<<(std::ostream& out, const vec3& v) {
     return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
 }
 
-vec3 operator+(const vec3& u, const vec3& v) {
+ vec3 operator+(const vec3& u, const vec3& v) {
     return vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
 }
 
-vec3 operator-(const vec3& u, const vec3& v) {
+ vec3 operator-(const vec3& u, const vec3& v) {
     return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-vec3 operator*(const vec3& u, const vec3& v) {
+ vec3 operator*(const vec3& u, const vec3& v) {
     return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-vec3 operator*(float t, const vec3& v) {
+ vec3 operator*(float t, const vec3& v) {
     return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
 }
 
-vec3 operator*(const vec3& v, float t) {
+ vec3 operator*(const vec3& v, float t) {
     return t * v;
 }
 
-vec3 operator/(const vec3& v, float t) {
+ vec3 operator/(const vec3& v, float t) {
     return (1.0f / t) * v;
 }
 
-float dot(const vec3& u, const vec3& v) {
+ float dot(const vec3& u, const vec3& v) {
     return u.e[0] * v.e[0]
          + u.e[1] * v.e[1]
          + u.e[2] * v.e[2];
 }
 
-vec3 cross(const vec3& u, const vec3& v) {
+ vec3 cross(const vec3& u, const vec3& v) {
     return vec3(
         u.e[1] * v.e[2] - u.e[2] * v.e[1],
         u.e[2] * v.e[0] - u.e[0] * v.e[2],
         u.e[0] * v.e[1] - u.e[1] * v.e[0]
     );
 }
+vec3 vec3::rand_reflect()
+{
+    return vec3(rand_f(), rand_f(), rand_f());
+}
+vec3 vec3::rand_reflect(float min, float max)
+{
+    return vec3(rand_f(min, max), rand_f(min, max), rand_f(min, max));
+}
 // NormalIze
-vec3 unit_vector(const vec3& v) {
+ vec3 unit_vector(const vec3& v) {
     return v / v.length();
+}
+ vec3 rand_unit_vec()
+{
+    while (true)
+    {
+        vec3 v = vec3::rand_reflect(-1, 1);
+        float len_sq = v.length_squared();
+        if ( (__FLT_MIN__ < len_sq) && (len_sq <= 1.0f))
+        {
+            return v/sqrtf(len_sq);
+        }
+    }
+
+}
+ vec3 random_on_hemisphere(const vec3& normal)
+{
+    vec3 on_unit_sphere = rand_unit_vec();
+    if (dot(normal, on_unit_sphere) > 0.0)
+    {
+        return on_unit_sphere;
+    } else {
+        return -on_unit_sphere;
+    }
 }

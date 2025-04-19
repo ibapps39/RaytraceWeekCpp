@@ -27,15 +27,20 @@ void camera::initialize()
     point3 viewport_upper_left =
         camera_center - vec3(0, 0, focal_length) - viewport_x / 2 - viewport_y / 2;
     pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_x + pixel_delta_y);
+    max_depth = 10;
 }
 
-color camera::ray_color(const ray &r, const hittable &world) const
+color camera::ray_color(const ray &r, int depth, const hittable &world) const
 {
-    hit_record rec;
-
-    if (world.hit(r, interval(0, infinity), rec))
+    if (depth <= 0)
     {
-        return 0.5 * (rec.normal + color(1, 1, 1));
+        return color(0,0,0);
+    }
+    hit_record rec;
+    if (world.hit(r, interval(0.001, infinity), rec))
+    {
+        vec3 dir = rec.normal + rand_unit_vec();
+        return 0.5 * ray_color(ray(rec.p, dir), depth-1, world);
     }
 
     vec3 unit_direction = unit_vector(r.direction());
@@ -78,7 +83,7 @@ void camera::render(const hittable &world)
                 for (int sample = 0; sample < samples_per_px; sample++)
                 {
                     ray r = get_ray(h, w);
-                    pixel_color += ray_color(r, world);
+                    pixel_color += ray_color(r, max_depth, world);
                 }
                 write_color(std::cout, px_sample_scale*pixel_color); 
             }

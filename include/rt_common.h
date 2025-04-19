@@ -5,11 +5,6 @@
 #include <limits>
 #include <memory>
 #include <cstdlib>
-
-#include "vec3.h"
-#include "color.h"
-#include "ray.h"
-#include "interval.h"
 // using std::make_shared;
 // using std::shared_ptr;
 
@@ -29,3 +24,8 @@ inline float rand_f(float min, float max)
 {
     return min + (max-min)*rand_f();
 }
+
+#include "color.h"
+#include "interval.h"
+#include "ray.h"
+#include "vec3.h"

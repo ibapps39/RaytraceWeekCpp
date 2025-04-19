@@ -1,10 +1,5 @@
 #pragma once
-// #include "vec3.h"
-// #include "color.h"
-#include "rt_common.h"
-
-
-using color = vec3;
+#include "vec3.h"
 class ray {
     private:
     point3 origin_;
@@ -21,6 +16,6 @@ class ray {
       point3 at(float t) const;
   };
 
-color ray_color(const ray& r);
+// color ray_color(const ray& r);
 
   

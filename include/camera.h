@@ -1,8 +1,6 @@
 #pragma once
 #include "hittable.h"
 
-
-
 // Needs to be set for calculating height. Currently 800.0f
 #define DEFAULT_VIEW_WIDTH (800.0f)
 // 1.77777777778f
@@ -37,7 +35,7 @@ private:
     float px_sample_scale; // Color scale factor for a sum of pixel samples
 
     void initialize();
-    color ray_color(const ray &r, const hittable &world) const;
+    color ray_color(const ray &r, int depth, const hittable &world) const;
     vec3 sample_square() const;
     ray get_ray( int h, int w) const;
 
@@ -45,5 +43,6 @@ public:
     float aspect_ratio;
     int image_width;
     int samples_per_px;
+    int max_depth;
     void render(const hittable &world);
 };

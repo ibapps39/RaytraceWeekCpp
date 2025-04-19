@@ -1,9 +1,10 @@
 // #include "make_example_ppm.h"
 #include "rt_common.h"
+#include "camera.h"
 #include "hittable.h"
 #include "hittable_list.h"
+//#include "material.h"
 #include "sphere.h"
-#include "camera.h"
 int main()
 {
     //make_example_ppm(0, 255);
@@ -24,6 +25,11 @@ int main()
     cam.aspect_ratio = float(16.0f/9.0f);
     cam.image_width = 400;
     cam.samples_per_px = 100;
+    cam.max_depth = 50;
+    // int md;
+    // std::cin >> md;
+    // std::clog << "Enter max_depth: " << std::endl;;
+    // cam.max_depth = md;
 
     cam.render(world);
 
