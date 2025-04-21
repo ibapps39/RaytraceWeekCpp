@@ -1,6 +1,4 @@
 #pragma once
-// #include "vec3.h"
-// #include "ray.h"
 #include "rt_common.h"
 class hit_record
 {
