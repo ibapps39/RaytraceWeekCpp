@@ -8,16 +8,17 @@
 int main()
 {
     //make_example_ppm(0, 255);
-    point3 sphere_one_pos(0, 0, -1);
-    point3 sphere_two_pos(0, -100.5, -1);
+    // point3 sphere_one_pos(0, 0, -1);
+    // point3 sphere_two_pos(0, -100.5, -1);
 
-    std::shared_ptr<lambertain> material_ground = std::make_shared<lambertain>(color(0.8, 0.8, 0.0));
-    std::shared_ptr<lambertain> material_center = std::make_shared<lambertain>(color(0.1, 0.2, 0.5));
-    std::shared_ptr<metal> material_left   = std::make_shared<metal>(color(0.8, 0.8, 0.8));
-    std::shared_ptr<metal> material_right  = std::make_shared<metal>(color(0.8, 0.6, 0.2));
+    std::shared_ptr<lambertian> material_ground = std::make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    std::shared_ptr<lambertian> material_center = std::make_shared<lambertian>(color(0.1, 0.2, 0.5));
+    // std::shared_ptr<metal> material_left   = std::make_shared<metal>(color(0.8, 0.8, 0.8), 0.3f);
+    std::shared_ptr<dielectric> material_left   = std::make_shared<dielectric>(1.50);
+    std::shared_ptr<metal> material_right       = std::make_shared<metal>(color(0.8, 0.6, 0.2), 1.0f);
     
-    float radius_sphere_one = 0.5f;
-    float radius_sphere_two = 100.0f;
+    // float radius_sphere_one = 0.5f;
+    // float radius_sphere_two = 100.0f;
 
     // sphere sphere_one(sphere_one_pos, radius_sphere_one);
     // sphere sphere_two(sphere_two_pos, radius_sphere_two);

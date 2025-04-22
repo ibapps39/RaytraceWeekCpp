@@ -11,18 +11,27 @@ class material
         };
 };
 
-class lambertain : public material {
+class lambertian : public material {
     private:
         color albedo;
     public:
-        lambertain(const color& albedo);
+        lambertian(const color& albedo);
         bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
 };
 
 class metal : public material {
     private:
         color albedo;
+        float fuzz;
     public:
-    metal(const color& albedo);
-    bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
+        metal(const color& albedo, float fuzz);
+        bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
+};
+
+class dielectric: public material {
+    private:
+        float refract_index;
+    public:
+        dielectric(float refract_index);
+        bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
 };

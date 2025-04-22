@@ -62,3 +62,4 @@ vec3 unit_vector(const vec3& v);
 vec3 rand_unit_vec();
 vec3 random_on_hemisphere(const vec3& normal);
 vec3 reflect(const vec3& v, const vec3& n);
+vec3 refract(const vec3& uv, const vec3& n, float etai_over_etat);
