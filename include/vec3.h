@@ -40,6 +40,8 @@ public:
 
     static vec3 rand_reflect();
     static vec3 rand_reflect(float min, float max);
+    bool near_zero();
+    
 };
 
 // Alias for geometric clarity
@@ -59,3 +61,4 @@ vec3 cross(const vec3& u, const vec3& v);
 vec3 unit_vector(const vec3& v);
 vec3 rand_unit_vec();
 vec3 random_on_hemisphere(const vec3& normal);
+vec3 reflect(const vec3& v, const vec3& n);

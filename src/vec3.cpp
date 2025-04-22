@@ -123,3 +123,15 @@ vec3 vec3::rand_reflect(float min, float max)
         return -on_unit_sphere;
     }
 }
+
+bool vec3::near_zero()
+{
+    float min_f = -MAXFLOAT;
+    return  ( (std::fabs(e[0]) < min_f) && (std::fabs(e[1]) < min_f) && (std::fabs(e[2] < min_f)) );
+    
+}
+
+vec3 reflect(const vec3& v, const vec3& n)
+{
+    return v - (2*dot(v,n)*n);
+}
