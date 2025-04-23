@@ -1,7 +1,9 @@
 #include "sphere.h"
 
-
-sphere::sphere(const point3& center_pos, float radius) : center_pos(center_pos), radius(std::fmaxf(0.0f, radius))
+sphere::sphere(const point3& center_pos, float radius, std::shared_ptr<material> mat) : 
+center_pos(center_pos), 
+radius(std::fmaxf(0.0f, radius)),
+mat(mat)
 {}
 
 bool sphere::hit(const ray& r, interval ray_t, hit_record& hit_rec) const 
@@ -15,13 +17,11 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& hit_rec) const
     if (discriminant < 0) { return false; }
 
     float sqrt_det = std::sqrtf(discriminant);
-
     float root = (h - sqrt_det) / a;
-    bool surrounds_root = ray_t.surrounds(root);
-    if (!surrounds_root)
+    if (!ray_t.surrounds(root))
     {
         root = (h + sqrt_det)/a;
-        if (!surrounds_root)
+        if (!ray_t.surrounds(root))
         {
             return false;
         }
@@ -34,6 +34,7 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& hit_rec) const
     vec3 outward_normal = (hit_rec.p - center_pos) / radius;
     // record a hit and by how much, and if a surface. Records surface normals
     hit_rec.set_face_normal(r, outward_normal);
+    hit_rec.mat = mat;
     return true;
 }
 
