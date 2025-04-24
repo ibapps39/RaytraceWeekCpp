@@ -10,6 +10,15 @@ float linear_to_gamma(float linear_component)
     return 0;
 }
 
+color random_albedo() {
+    return color(rand_f(), rand_f(), rand_f());
+}
+
+color random_albedo(float min, float max)
+{
+    return color(rand_f(min, max), rand_f(min, max), rand_f(min, max));
+}
+
 //Convert vector colors from [0,1] to [0,255], write
 void write_color(std::ostream& out, const color& pixel_color) {
     auto r = pixel_color.x();

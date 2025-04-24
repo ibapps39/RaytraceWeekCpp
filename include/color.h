@@ -10,4 +10,6 @@ using color = vec3;
 float linear_to_gamma(float linear_component);
 //Convert vector colors from [0,1] to [0,255], write
 void write_color(std::ostream& out, const color& pixel_color);
+color random_albedo();
+color random_albedo(float min, float max);
 

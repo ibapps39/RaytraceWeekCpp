@@ -35,15 +35,30 @@ private:
 
     float px_sample_scale; // Color scale factor for a sum of pixel samples
 
+    float camera_theta;
+    float camera_height;
+    vec3 cam_x, cam_y, cam_z;
+    
+    vec3 def_disk_xr; // Defocus disk horizontal radius
+    vec3 def_disk_yr; // Defocus disk vertical radius
+
     void initialize();
     color ray_color(const ray &r, int depth, const hittable &world) const;
     vec3 sample_square() const;
     ray get_ray( int h, int w) const;
+    point3 defocus_sampling() const;
+
 
 public:
     float aspect_ratio;
     int image_width;
     int samples_per_px;
-    int max_depth;
+    int max_depth = 10;
+    float vfov;
+    point3 lookat;
+    point3 lookfrom;
+    vec3 camera_up;
+    float defocus_angle;  // Variation angle of rays through each pixel
+    float focus_dist;    // Distance from camera lookfrom point to plane of perfect focus
     void render(const hittable &world);
 };

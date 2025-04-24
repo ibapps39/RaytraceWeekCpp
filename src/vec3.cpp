@@ -142,13 +142,15 @@ vec3 refract(const vec3& uv, const vec3& n, float etai_over_etat)
     vec3 r_out_perp = etai_over_etat * (uv + cos_theta*n);
     vec3 r_out_parallel = -std::sqrtf(std::fabsf(1.0f - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
-    // Book Code
-    // auto cos_theta = std::fmin(dot(-uv, n), 1.0);
-    // vec3 r_out_perp =  etai_over_etat * (uv + cos_theta*n);
-    // vec3 r_out_parallel = -std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n;
-    // return r_out_perp + r_out_parallel;
-
-    /*
-    Not sure what's wrong/the difference considering they're basically the same, some very distortion. It could be some aggressive optimization
-    */
+}
+vec3 random_in_unit_disk()
+{
+    while (true)
+    {
+        vec3 p = vec3(rand_f(-1, 1), rand_f(-1, 1), 0);
+        if (p.length_squared() < 1)
+        {
+            return p;
+        }
+    }
 }
