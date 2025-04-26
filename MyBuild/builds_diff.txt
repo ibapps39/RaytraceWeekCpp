@@ -1,0 +1,6 @@
+Without threads and dispatch:
+1min11s87ms
+With threads and dispatch:
+17s59ms
+
+about 25% faster!

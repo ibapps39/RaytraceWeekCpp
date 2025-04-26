@@ -5,7 +5,7 @@ void camera::initialize()
     
     image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
-
+    
     px_sample_scale = 1.0f / samples_per_px;
 
     camera_center = lookfrom;
@@ -115,3 +115,55 @@ void camera::render(const hittable &world)
     }
     std::clog << "\rDone.                 \n";
 }
+// void camera::render(const hittable &world)
+// {
+//     initialize();
+//     image_height = (image_height < 1) ? 1 : image_height;
+//     viewport_width = viewport_height * (float(image_width) / image_height);
+//     std::clog << "MAX_DEPTH: " << max_depth << std::endl;
+//     std::cout << "P3" << std::endl;
+//     std::cout << image_width << " " << image_height << std::endl;
+//     std::cout << "255" << std::endl;
+
+//     // Create a buffer to store all pixel colors
+//     std::vector<color> pixel_buffer(image_width * image_height);
+    
+//     // Get number of hardware threads
+//     unsigned int num_threads = std::thread::hardware_concurrency();
+//     std::vector<std::thread> threads(num_threads);
+    
+//     // Divide the work among threads
+//     for (unsigned int t = 0; t < num_threads; t++) {
+//         threads[t] = std::thread([&, t]() {
+//             // Calculate range for this thread
+//             int start_h = (image_height * t) / num_threads;
+//             int end_h = (image_height * (t + 1)) / num_threads;
+            
+//             for (int h = start_h; h < end_h; h++) {
+//                 for (int w = 0; w < image_width; w++) {
+//                     color pixel_color(0,0,0);
+//                     for (int sample = 0; sample < samples_per_px; sample++) {
+//                         ray r = get_ray(h, w);
+//                         pixel_color += ray_color(r, max_depth, world);
+//                     }
+//                     pixel_buffer[h * image_width + w] = px_sample_scale * pixel_color;
+//                 }
+//             }
+//         });
+//     }
+    
+//     // Wait for all threads to complete
+//     for (auto& thread : threads) {
+//         thread.join();
+//     }
+    
+//     // Output all pixels in the correct order
+//     for (int h = 0; h < image_height; h++) {
+//         std::clog << "\rScanlines remaining: " << (image_height - h) << ' ' << std::flush;
+//         for (int w = 0; w < image_width; w++) {
+//             write_color(std::cout, pixel_buffer[h * image_width + w]);
+//         }
+//     }
+    
+//     std::clog << "\rDone.                 \n";
+// }

@@ -10,14 +10,14 @@
 #include <thread>
 
 using namespace std;
-using namespace std::this_thread;     // sleep_for, sleep_until
+//using namespace std::this_thread;     // sleep_for, sleep_until
 //using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
 
 int main()
 {
 
 
-    sleep_for(chrono::seconds(20));
+    //sleep_for(chrono::seconds(20));
     
 
     hittable_list world;
@@ -73,9 +73,9 @@ int main()
     camera cam;
 
     cam.aspect_ratio = 16.0f / 9.0;
-    cam.image_width = 500;
-    cam.samples_per_px = 100;
-    cam.max_depth = 50;
+    cam.image_width = 1200;
+    cam.samples_per_px = 10;
+    cam.max_depth = 20;
 
     cam.vfov = 20;
     cam.lookfrom = point3(13, 2, 3);
