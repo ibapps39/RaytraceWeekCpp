@@ -7,8 +7,13 @@ ray::ray()
 {}
 ray::ray(const point3& origin, const vec3& direction) : origin_(origin), direction_(direction)
 {}
+ray::ray(const point3& origin, const vec3& direction, float time) : origin_(origin), direction_(direction), time_(time)
+{}
 point3 ray::at(float t) const {
     return origin_ + t*direction_;
+}
+float ray::time() const {
+    return time_;
 }
 
   

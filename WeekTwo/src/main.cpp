@@ -18,34 +18,28 @@ int main()
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
-    for (int a = -11; a < 11; a++)
-    {
-        for (int b = -11; b < 11; b++)
-        {
-            float choose_mat = rand_f();
-            point3 center(a + 0.9 * rand_f(), 0.2, b + 0.9 * rand_f());
+   
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            auto choose_mat = rand_f();
+            point3 center(a + 0.9*rand_f(), 0.2, b + 0.9*rand_f());
 
-            if ((center - point3(4, 0.2, 0)).length() > 0.9)
-            {
+            if ((center - point3(4, 0.2, 0)).length() > 0.9) {
                 shared_ptr<material> sphere_material;
 
-                if (choose_mat < 0.8)
-                {
+                if (choose_mat < 0.8) {
                     // diffuse
-                    color albedo = random_albedo() * random_albedo();
+                    auto albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian>(albedo);
-                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
-                }
-                else if (choose_mat < 0.95)
-                {
+                    auto center2 = center + vec3(0, rand_f(0,.5), 0);
+                    world.add(make_shared<sphere>(center, center2, 0.2, sphere_material));
+                } else if (choose_mat < 0.95) {
                     // metal
-                    auto albedo = random_albedo(0.5, 1);
+                    auto albedo = color::random(0.5, 1);
                     auto fuzz = rand_f(0, 0.5);
                     sphere_material = make_shared<metal>(albedo, fuzz);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
-                }
-                else
-                {
+                } else {
                     // glass
                     sphere_material = make_shared<dielectric>(1.5);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));

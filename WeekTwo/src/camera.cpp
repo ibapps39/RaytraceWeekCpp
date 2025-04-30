@@ -83,7 +83,8 @@ ray camera::get_ray(int h, int w) const
         // vec3 ray_origin = camera_center;
         vec3 ray_origin = (defocus_angle <= 0) ? camera_center : defocus_sampling();
         vec3 ray_direction = px_sample - ray_origin;
-        return ray(ray_origin, ray_direction);
+        float ray_time = rand_f();
+        return ray(ray_origin, ray_direction, ray_time);
 }
 void camera::render(const hittable &world)
 {

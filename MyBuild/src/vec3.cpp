@@ -154,3 +154,11 @@ vec3 random_in_unit_disk()
         }
     }
 }
+vec3 vec3::random(float min, float max)
+{
+    return vec3(rand_f(min,max), rand_f(min,max), rand_f(min,max));
+}
+vec3 vec3::random()
+{
+    return vec3(rand_f(), rand_f(), rand_f());
+}

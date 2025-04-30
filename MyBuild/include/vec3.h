@@ -38,6 +38,9 @@ public:
     float length_squared() const;
     float length() const;
 
+    static vec3 random();
+    static vec3 random(float min, float max);
+
     static vec3 rand_reflect();
     static vec3 rand_reflect(float min, float max);
     bool near_zero();
