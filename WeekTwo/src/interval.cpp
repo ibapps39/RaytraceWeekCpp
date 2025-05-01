@@ -22,5 +22,11 @@ float interval::clamp(float x) const
     return x;
 }
 
+interval interval::expand(float delta) const
+{
+    float padding = delta/2.0f;
+    return interval(min - padding, max + padding);
+}
+
 const interval interval::empty = interval(+infinity, -infinity);
 const interval interval::universe = interval(-infinity, +infinity);

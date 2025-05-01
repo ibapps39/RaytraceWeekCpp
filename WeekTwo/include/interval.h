@@ -13,5 +13,6 @@ class interval
         bool surrounds(float x) const;
 
         float clamp(float x) const;
+        interval expand(float delta) const;
         static const interval empty, universe;
 };
