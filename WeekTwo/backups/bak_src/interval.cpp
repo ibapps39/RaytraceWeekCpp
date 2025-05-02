@@ -2,6 +2,11 @@
 
 interval::interval() : min(+infinity), max(-infinity) {}
 interval::interval(float min, float max) : min(min), max(max) {}
+interval::interval(const interval& a, const interval& b)
+{
+    min = (a.min <= b.min) ? a.min : b.min;
+    max = (a.max >= b.max) ? a.max : b.max;
+}
 
 float interval::size() const
 {
@@ -20,6 +25,12 @@ float interval::clamp(float x) const
     if (x < min) return min;
     if (x > max) return max;
     return x;
+}
+
+interval interval::expand(float delta) const
+{
+    float padding = delta/2.0f;
+    return interval(min - padding, max + padding);
 }
 
 const interval interval::empty = interval(+infinity, -infinity);

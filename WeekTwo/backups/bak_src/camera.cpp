@@ -5,7 +5,7 @@ void camera::initialize()
     
     image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
-
+    
     px_sample_scale = 1.0f / samples_per_px;
 
     camera_center = lookfrom;
@@ -15,10 +15,8 @@ void camera::initialize()
     cam_y = cross(cam_z, cam_x); // already a unit vector since cam_z and cam_x are.
 
     // Determine viewport dimensions.
-    //focal_length = (lookat-lookfrom).length();
     camera_theta = (float)degrees_to_radians(vfov);
     camera_height = std::tanf(camera_theta/2.0f);
-    //viewport_height = 2.0f * camera_height * focal_length;
     viewport_height = 2.0f * camera_height * focus_dist;
     viewport_width = viewport_height * (float(image_width) / image_height);
 
@@ -31,7 +29,6 @@ void camera::initialize()
     pixel_delta_y = viewport_y / image_height;
 
     // Calculate the location of the upper left pixel.
-    //point3 viewport_upper_left = camera_center - (focal_length * cam_z) - viewport_x/2 - viewport_y/2;
     point3 viewport_upper_left = camera_center - (focus_dist*cam_z) - viewport_x/2.0f - viewport_y/2.0f;
     pixel00_loc = viewport_upper_left + 0.5f * (pixel_delta_x + pixel_delta_y);
      // Calculate the camera defocus disk basis vectors.
@@ -84,10 +81,10 @@ ray camera::get_ray(int h, int w) const
                         + ((w + offset.x()) * pixel_delta_x)
                         + ((h + offset.y()) * pixel_delta_y);
         // vec3 ray_origin = camera_center;
-        // if the def angle is less than or is 0, dont defocus, otherwise do. But test ie-8 too 
         vec3 ray_origin = (defocus_angle <= 0) ? camera_center : defocus_sampling();
         vec3 ray_direction = px_sample - ray_origin;
-        return ray(ray_origin, ray_direction);
+        float ray_time = rand_f();
+        return ray(ray_origin, ray_direction, ray_time);
 }
 void camera::render(const hittable &world)
 {

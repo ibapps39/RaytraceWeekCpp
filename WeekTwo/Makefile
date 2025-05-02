@@ -1,25 +1,43 @@
 CC = g++
-CFLAGS = -O3 -Wall -std=c++11 -Wno-missing-braces
+CFLAGS = -O3 -Wall -std=c++17 -Wno-missing-braces
 LDFLAGS = -L/opt/homebrew/Cellar/raylib/5.5/lib -lraylib
 INCLUDES = -I/opt/homebrew/Cellar/raylib/5.5/include -I./include
 
-SRC = $(wildcard ./src/*.cpp)
-OBJ = $(SRC:.cpp=.o)
-TARGET = main
+# Directory structure
+SRC_DIR = ./src
+BUILD_DIR = ./build
+OBJ_DIR = $(BUILD_DIR)/obj
+
+# Files
+SRC = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
+TARGET = $(BUILD_DIR)/main
+
+# Create required directories
+$(shell mkdir -p $(BUILD_DIR) $(OBJ_DIR))
 
 # Default target to build the program
 all: $(TARGET)
 
+# Link objects into executable
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS) || (make clean && exit 1)  # Clean on linking failure
-	mv ./$(TARGET) ./build
-	rm -f $(OBJ)  # Clean up object files after building
+	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS) || ($(MAKE) clean && exit 1)
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ || (make clean && exit 1)  # Clean on compilation failure
+# Compile source files to object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ || ($(MAKE) clean && exit 1)
 
+# Clean build artifacts
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(OBJ_DIR)/*.o $(TARGET)
 
-.PHONY: all clean
+# Rebuild everything from scratch
+rebuild: clean all
 
+# Generate dependency files
+depend: $(SRC)
+	$(CC) $(CFLAGS) $(INCLUDES) -MM $^ | sed 's|^|$(OBJ_DIR)/|' > .depend
+
+-include .depend
+
+.PHONY: all clean rebuild depend

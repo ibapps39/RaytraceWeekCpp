@@ -40,6 +40,10 @@ public:
 
     static vec3 rand_reflect();
     static vec3 rand_reflect(float min, float max);
+    
+    static vec3 random(float min, float max);
+    static vec3 random();
+
     bool near_zero();
     
 };
@@ -64,3 +68,4 @@ vec3 random_on_hemisphere(const vec3& normal);
 vec3 reflect(const vec3& v, const vec3& n);
 vec3 refract(const vec3& uv, const vec3& n, float etai_over_etat);
 vec3 random_in_unit_disk();
+

@@ -1,6 +1,8 @@
 #pragma once
 #include "hittable.h"
 #include "material.h"
+// #include <dispatch/dispatch.h>
+// #include <thread>
 
 // Needs to be set for calculating height. Currently 800.0f
 #define DEFAULT_VIEW_WIDTH (800.0f)

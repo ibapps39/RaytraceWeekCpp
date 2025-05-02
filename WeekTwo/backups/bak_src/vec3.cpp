@@ -126,7 +126,6 @@ vec3 vec3::rand_reflect(float min, float max)
 
 bool vec3::near_zero()
 {
-    // float min_f = std::numeric_limits<float>::min();
     float min_f = 1e-8;
     return  (std::fabs(e[0]) < min_f) && (std::fabs(e[1]) < min_f) && (std::fabs(e[2]) < min_f);
     
@@ -153,4 +152,12 @@ vec3 random_in_unit_disk()
             return p;
         }
     }
+}
+vec3 vec3::random(float min, float max)
+{
+    return vec3(rand_f(min,max), rand_f(min,max), rand_f(min,max));
+}
+vec3 vec3::random()
+{
+    return vec3(rand_f(), rand_f(), rand_f());
 }

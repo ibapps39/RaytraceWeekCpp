@@ -8,6 +8,7 @@ class interval
         float min, max;
         interval();
         interval(float min, float max);
+        interval(const interval& a, const interval& b);
         float size() const;
         bool contains(float x) const;
         bool surrounds(float x) const;

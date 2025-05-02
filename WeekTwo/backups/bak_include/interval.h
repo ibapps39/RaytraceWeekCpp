@@ -8,37 +8,12 @@ class interval
         float min, max;
         interval();
         interval(float min, float max);
+        interval(const interval& a, const interval& b);
         float size() const;
         bool contains(float x) const;
         bool surrounds(float x) const;
 
         float clamp(float x) const;
+        interval expand(float delta) const;
         static const interval empty, universe;
 };
-
-
-// class interval {
-//     public:
-//       double min, max;
-  
-//       interval() : min(+infinity), max(-infinity) {} // Default interval is empty
-  
-//       interval(double min, double max) : min(min), max(max) {}
-  
-//       double size() const {
-//           return max - min;
-//       }
-  
-//       bool contains(double x) const {
-//           return min <= x && x <= max;
-//       }
-  
-//       bool surrounds(double x) const {
-//           return min < x && x < max;
-//       }
-  
-//       static const interval empty, universe;
-//   };
-  
-//   const interval interval::empty    = interval(+infinity, -infinity);
-//   const interval interval::universe = interval(-infinity, +infinity);
