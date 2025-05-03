@@ -54,3 +54,18 @@ bool aabb::hit(const ray& r, interval ray_t) const
     }
     return true;
 }
+
+// maybe max the axis enums?
+int aabb::longest_axis() const 
+{
+    if (x.size() > y.size())
+    {
+        return x.size() > z.size() ? 0 : 2;
+    } else 
+    {
+        return y.size() > z.size() ? 1 : 2;
+    }
+}
+
+const aabb aabb::empty = aabb(interval(interval::empty), interval(interval::empty), interval(interval::empty));
+const aabb aabb::universe = aabb(interval(interval::universe), interval(interval::universe), interval(interval::universe));

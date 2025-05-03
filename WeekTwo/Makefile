@@ -33,7 +33,7 @@ clean:
 
 test:
 	rm -rf $(OBJ_DIR)/*.o $(TARGET)
-	$(make all)
+	make -j `sysctl -n hw.ncpu` all
 # Rebuild everything from scratch
 rebuild: clean all
 
