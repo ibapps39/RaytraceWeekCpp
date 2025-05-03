@@ -1,4 +1,4 @@
 /main
 /manual.ppm
 /reference.ppm
-*.o
+/build/obj/
