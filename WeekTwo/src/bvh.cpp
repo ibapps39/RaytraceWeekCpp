@@ -60,4 +60,5 @@ bool bvh_node::hit(const ray& r, interval ray_t, hit_record& rec) const
 
     bool hit_left = left->hit(r, ray_t, rec);
     bool hit_right = right->hit(r, interval(ray_t.min, hit_left ? rec.t : ray_t.max), rec);
+    return hit_left || hit_right;
 }

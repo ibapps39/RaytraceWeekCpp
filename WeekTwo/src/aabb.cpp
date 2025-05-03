@@ -27,11 +27,11 @@ bool aabb::hit(const ray& r, interval ray_t) const
     const point3& ray_orig = r.origin();
     const point3& ray_dir = r.direction();
 
-
     for (int axis = 0; axis < 3; axis++) 
     {
         const interval& current_axis = axis_interval(axis);
-        const double adinv = 1.0 / ray_dir[axis];
+        const float adinv = 1.0 / ray_dir[axis];
+
         // t0 = intersection, t1 = second intersection
         float t0 = (current_axis.min - ray_orig[axis]) * adinv;
         float t1 = (current_axis.max - ray_orig[axis]) * adinv;
