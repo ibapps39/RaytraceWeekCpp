@@ -31,6 +31,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(TARGET)
 
+test:
+	rm -rf $(OBJ_DIR)/*.o $(TARGET)
+	$(make all)
 # Rebuild everything from scratch
 rebuild: clean all
 
@@ -40,4 +43,4 @@ depend: $(SRC)
 
 -include .depend
 
-.PHONY: all clean rebuild depend
+.PHONY: all clean rebuild depend test

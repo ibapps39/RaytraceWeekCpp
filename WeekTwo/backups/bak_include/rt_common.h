@@ -24,6 +24,10 @@ inline float rand_f(float min, float max)
 {
     return min + (max-min)*rand_f();
 }
+inline float rand_int(int min, int max)
+{
+    return int(rand_f(min, max+1));
+}
 
 #include "color.h"
 #include "interval.h"
