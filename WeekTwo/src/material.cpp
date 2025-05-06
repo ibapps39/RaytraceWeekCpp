@@ -1,6 +1,10 @@
 #include "material.h"
 
-lambertian::lambertian(const color& albedo) : albedo(albedo){}
+lambertian::lambertian(const color& albedo) : tex(std::make_shared<solid_color>(albedo)) {}
+lambertian::lambertian(std::shared_ptr<texture> tex) : tex(tex) {}
+
+
+
 bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const 
 {
     vec3 scatter_dir = rec.normal + rand_unit_vec();
@@ -9,7 +13,7 @@ bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenu
         scatter_dir = rec.normal;
     }
     scattered = ray(rec.p, scatter_dir, ray_in.time());
-    attenuation = albedo;
+    attenuation = tex->value(rec.u, rec.v, rec.p);
     return true;
 }
 metal::metal(const color& albedo, float fuzz) : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}

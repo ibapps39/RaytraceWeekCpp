@@ -8,12 +8,9 @@
 #include "sphere.h"
 #include "texture.h"
 
-#include <chrono>
-#include <thread>
-
 using namespace std;
 
-int main()
+void bouncing_spheres()
 {
     hittable_list world;
 
@@ -64,7 +61,7 @@ int main()
     camera cam;
 
     cam.aspect_ratio = 16.0f / 9.0;
-    cam.image_width = 1200;
+    cam.image_width = 400;
     cam.samples_per_px = 100;
     cam.max_depth = 50;
 
@@ -77,6 +74,79 @@ int main()
     cam.focus_dist = 10.0;
 
     cam.render(world);
+}
 
+void checkered_spheres()
+{
+    hittable_list world;
+    
+    auto checker = make_shared<checker_texture>(0.32, color(.2, .3, .1), color(.9, .9, .9));
+
+    world.add(make_shared<sphere>(point3(0,-10, 0), 10, make_shared<lambertian>(checker)));
+    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
+
+    camera cam;
+
+    cam.aspect_ratio = 16.0f / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_px = 100;
+    cam.max_depth = 50;
+
+    cam.vfov = 20;
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, 0);
+    cam.camera_up = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0.6;
+    cam.focus_dist = 10.0;
+
+    cam.render(world);
+}
+
+void axis()
+{
+    hittable_list world;
+    
+    auto checker = make_shared<checker_texture>(0.32, color(.2, .3, .1), color(.9, .9, .9));
+
+    world.add(make_shared<sphere>(point3(0,-10, 0), 10, make_shared<lambertian>(checker)));
+    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
+    auto solid = make_shared<solid_color>(1,0,0);
+    world.add(make_shared<sphere>(point3(0, 0, 0), 1.0f, make_shared<lambertian>(solid)));
+
+    camera cam;
+
+    cam.aspect_ratio = 16.0f / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_px = 100;
+    cam.max_depth = 50;
+
+    cam.vfov = 20;
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, 0);
+    cam.camera_up = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0.6;
+    cam.focus_dist = 10.0;
+
+    cam.render(world);
+}
+
+int main()
+{
+    switch (3)
+    {
+    case 1:
+        bouncing_spheres();
+        break;
+    case 2:
+        checkered_spheres();
+        break;
+    case 3:
+        axis();
+        break;
+    default:
+        break;
+    }
     return 0;
 }

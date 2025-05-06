@@ -1,7 +1,6 @@
 #pragma once
 #include "hittable.h"
-#include "material.h"
-
+#include "texture.h"
 class material
 {
     public:
@@ -15,8 +14,10 @@ class material
 class lambertian : public material {
     private:
         color albedo;
+        std::shared_ptr<texture> tex;
     public:
         lambertian(const color& albedo);
+        lambertian(std::shared_ptr<texture> tex);
         bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
 };
 
