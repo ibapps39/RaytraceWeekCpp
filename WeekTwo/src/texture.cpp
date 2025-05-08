@@ -29,24 +29,22 @@ color checker_texture::value(float u, float v, const point3& p) const
     return isEven ? even->value(u, v, p) : odd->value(u, v, p);
 }
 
-// image_texture::image_texture(const char* filename) : image(filename)
-// {}
+image_texture::image_texture(const char* filename) : image(filename)
+{}
+  
+color image_texture::value(float u, float v, const point3& p) const 
+{
+            // If we have no texture data, then return solid cyan as a debugging aid.
+            if (image.height() <= 0) return color(0,1,1);
 
-// color image_texture::value(float u, float v, const point3& p) const
-// {
-//     // If we have no texture data, then return solid cyan as a debugging aid.
-//     if (image.height() <= 0) 
-//     {
-//         return color(0,1,1);
-//     }
-//     // Clamp input texture coordinates to [0,1] x [1,0]
-//     u = interval(0,1).clamp(u);
-//     // Flip V to image coordinates
-//     v = 1.0f - interval(0,1).clamp(v);
+            // Clamp input texture coordinates to [0,1] x [1,0]
+            u = interval(0,1).clamp(u);
+            v = 1.0 - interval(0,1).clamp(v);  // Flip V to image coordinates
     
-//     int i = int(u*image.width());
-//     int j = int(v*image.height());
-//     const unsigned char * pixel = image.pixel_data(i, j);
-//     float color_scale = 1.0f / 255.0f;
-//     return color(color_scale*pixel[0], color_scale*pixel[1], color_scale*pixel[2]);
-// }
+            auto i = int(u * image.width());
+            auto j = int(v * image.height());
+            auto pixel = image.pixel_data(i,j);
+    
+            auto color_scale = 1.0 / 255.0;
+            return color(color_scale*pixel[0], color_scale*pixel[1], color_scale*pixel[2]);
+}

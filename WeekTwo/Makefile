@@ -31,11 +31,15 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(TARGET)
 
-test:
-	rm -rf $(OBJ_DIR)/*.o $(TARGET)
+# test:
+# 	rm -rf $(OBJ_DIR)/*.o $(TARGET)
+# 	make -j `sysctl -n hw.ncpu` all
+fast:
 	make -j `sysctl -n hw.ncpu` all
 # Rebuild everything from scratch
 rebuild: clean all
+
+fast_rebuild: clean fast
 
 # Generate dependency files
 depend: $(SRC)

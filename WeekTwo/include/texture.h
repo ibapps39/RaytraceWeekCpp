@@ -1,5 +1,7 @@
 #pragma once
 #include "color.h"
+#include "rtw_stb_image.h"
+
 class texture 
 {
     public:
@@ -28,3 +30,11 @@ class checker_texture : public texture
         color value(float u, float v, const point3& p) const override;
 };
 
+class image_texture : public texture {
+    private:
+      rtw_image image;
+    public:
+      image_texture(const char* filename);
+  
+      color value(float u, float v, const point3& p) const override;
+  };
