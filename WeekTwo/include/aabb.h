@@ -1,5 +1,5 @@
 #pragma once
-#include "interval.h"
+#include "rt_common.h"
 class aabb
 {
     public:

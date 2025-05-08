@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/opt/homebrew/Cellar/raylib/*/include/**",
-                "${workspaceFolder}/include/*"
+                "${workspaceFolder}/include/*",
+                "{workspaceFolder}/external/stb/**"
             ],
             "defines": [],
             "macFrameworkPath": [

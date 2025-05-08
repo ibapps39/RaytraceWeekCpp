@@ -1,10 +1,16 @@
 #pragma once
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <limits>
 #include <memory>
-#include <cstdlib>
+
+#include "color.h"
+#include "interval.h"
+#include "ray.h"
+#include "vec3.h"
+
 // using std::make_shared;
 // using std::shared_ptr;
 
@@ -29,7 +35,3 @@ inline float rand_int(int min, int max)
     return int(rand_f(min, max+1));
 }
 
-#include "color.h"
-#include "interval.h"
-#include "ray.h"
-#include "vec3.h"

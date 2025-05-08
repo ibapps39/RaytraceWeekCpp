@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -O3 -Wall -std=c++17 -Wno-missing-braces
-LDFLAGS = -L/opt/homebrew/Cellar/raylib/5.5/lib -lraylib
-INCLUDES = -I/opt/homebrew/Cellar/raylib/5.5/include -I./include
+LDFLAGS =  
+INCLUDES = -I./include
 
 # Directory structure
 SRC_DIR = ./src

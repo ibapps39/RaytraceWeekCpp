@@ -23,7 +23,8 @@ class checker_texture : public texture
         std::shared_ptr<texture> even;
         std::shared_ptr<texture> odd;
     public:
-    checker_texture(float scale, std::shared_ptr<texture> even, std::shared_ptr<texture> odd);
-    checker_texture(float scale, const color& c1, const color& c2);
-    color value(float u, float v, const point3& p) const override;
+        checker_texture(float scale, std::shared_ptr<texture> even, std::shared_ptr<texture> odd);
+        checker_texture(float scale, const color& c1, const color& c2);
+        color value(float u, float v, const point3& p) const override;
 };
+

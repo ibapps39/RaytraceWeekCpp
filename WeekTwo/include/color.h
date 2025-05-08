@@ -3,9 +3,12 @@
 // #include <iostream>
 #include "interval.h"
 #include "vec3.h"
+#include "rt_common.h"
+
 
 //color::random
 using color = vec3;
+
 
 // Convert color from linear space to gamma
 float linear_to_gamma(float linear_component);

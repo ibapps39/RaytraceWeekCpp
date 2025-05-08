@@ -1,7 +1,9 @@
 #pragma once
-#include "rt_common.h"
+
 #include "aabb.h"
+
 class material;
+
 class hit_record
 {
     public:

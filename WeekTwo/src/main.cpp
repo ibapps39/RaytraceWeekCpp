@@ -1,12 +1,14 @@
 // #include "make_example_ppm.h"
 #include "bvh.h"
-#include "rt_common.h"
 #include "camera.h"
+// #include "constant_medium.h"
 #include "hittable.h"
 #include "hittable_list.h"
 #include "material.h"
+// #include "quad.h"
 #include "sphere.h"
 #include "texture.h"
+
 
 using namespace std;
 
