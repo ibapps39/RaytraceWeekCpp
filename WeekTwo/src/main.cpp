@@ -133,19 +133,84 @@ void axis()
 
     cam.render(world);
 }
+void earth()
+{
+    std::shared_ptr<image_texture> earth_texture = std::make_shared<image_texture>("earthmap.jpg");
+    std::shared_ptr<lambertian> earth_surface = std::make_shared<lambertian>(earth_texture);
+
+    std::shared_ptr<sphere> globe = std::make_shared<sphere>(point3(0,0,0), 2, earth_surface);
+    
+    camera cam;
+
+    cam.aspect_ratio = 16.0f / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_px = 100;
+    cam.max_depth = 50;
+
+    cam.vfov = 20;
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat = point3(0, 0, 0);
+    cam.camera_up = vec3(0, 1, 0);
+
+    cam.defocus_angle = 0.6;
+    cam.focus_dist = 10.0;
+
+    cam.render(hittable_list(globe));
+}
+
+void perlin_spheres() {
+    hittable_list world;
+
+    auto pertext = std::make_shared<perlin_texture>();
+    world.add(std::make_shared<sphere>(point3(0,-1000,0), 1000, std::make_shared<lambertian>(pertext)));
+    world.add(std::make_shared<sphere>(point3(0,2,0), 2, std::make_shared<lambertian>(pertext)));
+
+    camera cam;
+
+    cam.aspect_ratio        = 16.0 / 9.0;
+    cam.image_width         = 400;
+    cam.samples_per_px      = 100;
+    cam.max_depth           = 50;
+
+    cam.vfov        = 20;
+    cam.lookfrom    = point3(13,2,3);
+    cam.lookat      = point3(0,0,0);
+    cam.camera_up   = vec3(0,1,0);
+
+    cam.defocus_angle = 0;
+    cam.focus_dist = 10.0;
+
+    cam.render(world);
+}
 
 int main()
 {
-    switch (3)
+    enum EXAMPLES {
+        BOUNCE_SPHERES,
+        CHECKERED_SPHERES,
+        AXIS,
+        EARTH,
+        PERLIN_NOISE
+    };
+
+    EXAMPLES choice = PERLIN_NOISE;
+    
+    switch (choice)
     {
-    case 1:
+    case BOUNCE_SPHERES:
         bouncing_spheres();
         break;
-    case 2:
+    case CHECKERED_SPHERES:
         checkered_spheres();
         break;
-    case 3:
+    case AXIS:
         axis();
+        break;
+    case EARTH:
+        earth();
+        break;
+    case PERLIN_NOISE:
+        perlin_spheres();
         break;
     default:
         break;

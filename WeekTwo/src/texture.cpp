@@ -8,9 +8,10 @@ color solid_color::value(float u, float v, const point3& p) const
 {
     return albedo;
 }
+
 checker_texture::checker_texture(float scale, std::shared_ptr<texture> even, std::shared_ptr<texture> odd)
     : inv_scale(1.0f/scale), even(even), odd(odd)
-    {}
+{}
 checker_texture::checker_texture(float scale, const color& c1, const color& c2) 
     : checker_texture(
         scale, 
@@ -31,7 +32,6 @@ color checker_texture::value(float u, float v, const point3& p) const
 
 image_texture::image_texture(const char* filename) : image(filename)
 {}
-  
 color image_texture::value(float u, float v, const point3& p) const 
 {
             // If we have no texture data, then return solid cyan as a debugging aid.
@@ -47,4 +47,13 @@ color image_texture::value(float u, float v, const point3& p) const
     
             auto color_scale = 1.0 / 255.0;
             return color(color_scale*pixel[0], color_scale*pixel[1], color_scale*pixel[2]);
+}
+perlin_texture::perlin_texture(float scale) : scale(scale)
+{}
+color perlin_texture::value(float u, float v, const point3& p) const
+{
+    //std::clog << "noise.noise(p): " << noise.noise(p) << std::endl;
+    //std::clog << "color(1,1,1) * noise.noise(p)" << color(1,1,1) * noise.noise(p) << std::endl;
+    return color(1,1,1) * noise.noise(scale*p);
+
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "color.h"
 #include "rtw_stb_image.h"
+#include "perlin.h"
 
 class texture 
 {
@@ -37,4 +38,16 @@ class image_texture : public texture {
       image_texture(const char* filename);
   
       color value(float u, float v, const point3& p) const override;
-  };
+};
+
+class perlin_texture : public texture 
+{
+    private:
+        perlin noise;
+        float scale;
+    public:
+        perlin_texture(float scale);
+        color value(float u, float v, const point3& p) const override;
+};
+
+
