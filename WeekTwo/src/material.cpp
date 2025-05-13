@@ -57,3 +57,12 @@ bool dielectric::scatter(const ray& ray_in, const hit_record& rec, color& attenu
     return true;
 
 }
+diffuse_light::diffuse_light(std::shared_ptr<texture> tex) : tex(tex) 
+{}
+diffuse_light::diffuse_light(const color& emit) : tex(std::make_shared<solid_color>(emit)) 
+{}
+  
+color diffuse_light::emitted(float u, float v, const point3& p) const 
+{
+    return tex->value(u, v, p);
+}
