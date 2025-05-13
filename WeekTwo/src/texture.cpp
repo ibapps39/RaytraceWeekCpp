@@ -54,6 +54,6 @@ color perlin_texture::value(float u, float v, const point3& p) const
 {
     //std::clog << "noise.noise(p): " << noise.noise(p) << std::endl;
     //std::clog << "color(1,1,1) * noise.noise(p)" << color(1,1,1) * noise.noise(p) << std::endl;
-    return color(1,1,1) * noise.turb(p, 7);
+    return color(.5, .5, .5) * (1 + std::sin(scale * p.z() + 10 * noise.turb(p, 7)));
 
 }

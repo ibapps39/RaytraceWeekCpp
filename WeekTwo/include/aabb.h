@@ -2,8 +2,21 @@
 #include "rt_common.h"
 class aabb
 {
+    private:
+    void pad_to_minimums();
+        /*
+            void pad_to_minimums() {
+        // Adjust the AABB so that no side is narrower than some delta, padding if necessary.
+
+        double delta = 0.0001;
+        if (x.size() < delta) x = x.expand(delta);
+        if (y.size() < delta) y = y.expand(delta);
+        if (z.size() < delta) z = z.expand(delta);
+    }
+        */
     public:
         interval x,y,z;
+        float delta = 0.00001f;
         static const aabb empty, universe;
 
         aabb();
