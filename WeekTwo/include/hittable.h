@@ -24,3 +24,14 @@ class hittable
         virtual bool hit(const ray& r, interval ray_t, hit_record& rec) const = 0;
         virtual aabb bounding_box() const = 0;
 };
+
+class translate : public hittable {
+    private:
+        std::shared_ptr<hittable> object;
+        vec3 offset;
+        aabb bbox;
+  public:
+    aabb bounding_box() const override;
+    bool hit(const ray& r, interval ray_t, hit_record& rec) const override;
+    translate(std::shared_ptr<hittable> object, const vec3& offset);
+};

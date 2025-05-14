@@ -4,16 +4,7 @@ class aabb
 {
     private:
     void pad_to_minimums();
-        /*
-            void pad_to_minimums() {
-        // Adjust the AABB so that no side is narrower than some delta, padding if necessary.
 
-        double delta = 0.0001;
-        if (x.size() < delta) x = x.expand(delta);
-        if (y.size() < delta) y = y.expand(delta);
-        if (z.size() < delta) z = z.expand(delta);
-    }
-        */
     public:
         interval x,y,z;
         float delta = 0.00001f;
@@ -29,3 +20,6 @@ class aabb
 
         bool hit(const ray& r, interval ray_t) const;
 };
+
+aabb operator+(const aabb& bbox, const vec3& offset);
+aabb operator+(const vec3& offset, const aabb& bbox);

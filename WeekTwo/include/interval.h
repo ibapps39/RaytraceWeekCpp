@@ -15,3 +15,6 @@ class interval
         interval expand(float delta) const;
         static const interval empty, universe;
 };
+
+interval operator+(const interval& ival, float displacement);
+interval operator+(float displacement, const interval& ival);
