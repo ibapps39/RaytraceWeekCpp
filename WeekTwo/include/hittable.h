@@ -25,7 +25,8 @@ class hittable
         virtual aabb bounding_box() const = 0;
 };
 
-class translate : public hittable {
+class translate : public hittable 
+{
     private:
         std::shared_ptr<hittable> object;
         vec3 offset;
@@ -34,4 +35,18 @@ class translate : public hittable {
     aabb bounding_box() const override;
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override;
     translate(std::shared_ptr<hittable> object, const vec3& offset);
+};
+
+class rotate_y : public hittable
+{
+    private:
+        std::shared_ptr<hittable> object;
+        float sin_theta;
+        float cos_theta;
+        aabb bbox;
+
+    public:
+        aabb bounding_box() const override;
+        rotate_y(std::shared_ptr<hittable> object, float angle);
+        bool hit(const ray& r, interval ray_t, hit_record& rec) const override;
 };

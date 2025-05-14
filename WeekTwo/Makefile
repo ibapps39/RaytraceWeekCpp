@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS = -O3 -Wall -std=c++17 -Wno-missing-braces
-LDFLAGS =  
+CFLAGS = -O3 -Wall -std=c++17 -Wno-missing-braces -march=native
+LDFLAGS = 
 INCLUDES = -I./include
 
 # Directory structure
