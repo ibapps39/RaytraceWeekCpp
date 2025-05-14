@@ -15,6 +15,21 @@ displacement_ray(center1, center2-center1), radius(std::fmax(0, radius)), mat(ma
     aabb dt_box(displacement_ray.at(1) - rvec, displacement_ray.at(1) + rvec);
     bbox = aabb(initial_box, dt_box);
 }
+void sphere::get_sphere_uv(const point3& p, float& u, float& v)
+{
+        // p: a given point on the sphere of radius one, centered at the origin.
+        // u: returned value [0,1] of angle around the Y axis from X=-1.
+        // v: returned value [0,1] of angle from Y=-1 to Y=+1.
+        //     <1 0 0> yields <0.50 0.50>       <-1  0  0> yields <0.00 0.50>
+        //     <0 1 0> yields <0.50 1.00>       < 0 -1  0> yields <0.50 0.00>
+        //     <0 0 1> yields <0.25 0.50>       < 0  0 -1> yields <0.75 0.50>
+    float phi = std::atan2f(-p.z(), p.x()) + pi;
+    float theta = std::acosf(-p.y());
+
+    //normalize 
+    u = phi/(2.0f*pi);
+    v = (theta/float(pi));
+}
 
 // returns this->bbox.
 aabb sphere::bounding_box() const { return bbox; } 
@@ -47,6 +62,8 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& hit_rec) const
     vec3 outward_normal = (hit_rec.p - current_center) / radius;
     // record a hit and by how much, and if a surface. Records surface normals
     hit_rec.set_face_normal(r, outward_normal);
+    get_sphere_uv(outward_normal, hit_rec.u, hit_rec.v);
     hit_rec.mat = mat;
+    
     return true;
 }

@@ -1,7 +1,9 @@
 #pragma once
-#include "rt_common.h"
+
 #include "aabb.h"
+
 class material;
+
 class hit_record
 {
     public:
@@ -9,6 +11,8 @@ class hit_record
         vec3 normal;
         std::shared_ptr<material> mat;
         float t;
+        float u;
+        float v;
         bool front_face;
         void set_face_normal(const ray& r, const vec3& outward_normal);
 };

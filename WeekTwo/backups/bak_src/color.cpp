@@ -1,5 +1,4 @@
 #include "color.h"
-#include "interval.h"
 
 float linear_to_gamma(float linear_component)
 {
