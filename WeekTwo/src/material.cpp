@@ -57,3 +57,12 @@ bool dielectric::scatter(const ray& ray_in, const hit_record& rec, color& attenu
     return true;
 
 }
+
+bool isotropic::scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
+        const {
+            scattered = ray(rec.p, rand_unit_vec(), r_in.time());
+            attenuation = tex->value(rec.u, rec.v, rec.p);
+            return true;
+        }
+isotropic::isotropic(const color& albedo) : tex(std::make_shared<solid_color>(albedo)) {}
+isotropic::isotropic(std::shared_ptr<texture> tex) : tex(tex) {}

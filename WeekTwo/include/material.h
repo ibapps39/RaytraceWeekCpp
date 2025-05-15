@@ -38,3 +38,13 @@ class dielectric: public material {
         dielectric(float refract_index);
         bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
 };
+class isotropic : public material {
+    private:
+        std::shared_ptr<texture> tex;
+    public:
+        isotropic(const color& albedo);
+        isotropic(std::shared_ptr<texture> tex);
+
+        bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
+        const override;
+};
