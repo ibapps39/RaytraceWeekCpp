@@ -52,3 +52,14 @@ class diffuse_light : public material
   
     color emitted(float u, float v, const point3& p) const override;
   };
+  
+class isotropic : public material {
+    private:
+        std::shared_ptr<texture> tex;
+    public:
+        isotropic(const color& albedo);
+        isotropic(std::shared_ptr<texture> tex);
+
+        bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
+        const override;
+};
