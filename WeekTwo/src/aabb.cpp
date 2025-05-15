@@ -82,3 +82,11 @@ int aabb::longest_axis() const
 
 const aabb aabb::empty = aabb(interval(interval::empty), interval(interval::empty), interval(interval::empty));
 const aabb aabb::universe = aabb(interval(interval::universe), interval(interval::universe), interval(interval::universe));
+
+aabb operator+(const aabb& bbox, const vec3& offset) {
+    return aabb(bbox.x + offset.x(), bbox.y + offset.y(), bbox.z + offset.z());
+}
+
+aabb operator+(const vec3& offset, const aabb& bbox) {
+    return bbox + offset;
+}

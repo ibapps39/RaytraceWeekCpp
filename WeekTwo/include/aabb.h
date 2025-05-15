@@ -29,3 +29,6 @@ class aabb
 
         bool hit(const ray& r, interval ray_t) const;
 };
+aabb operator+(const aabb& bbox, const vec3& offset);
+
+aabb operator+(const vec3& offset, const aabb& bbox);

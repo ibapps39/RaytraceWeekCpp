@@ -33,6 +33,17 @@ float dielectric::reflectance(float cosine, float refraction_index)
         r0 = r0*r0;
         return r0 + (1/r0)*std::powf((1-cosine), 5);
 }
+
+diffuse_light::diffuse_light(std::shared_ptr<texture> tex) : tex(tex) 
+{}
+diffuse_light::diffuse_light(const color& emit) : tex(std::make_shared<solid_color>(emit)) 
+{}
+  
+color diffuse_light::emitted(float u, float v, const point3& p) const 
+{
+    return tex->value(u, v, p);
+}
+
 bool dielectric::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const
 {
     attenuation = color(1.0, 1.0, 1.0);

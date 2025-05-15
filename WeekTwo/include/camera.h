@@ -60,5 +60,6 @@ public:
     vec3 camera_up;
     float defocus_angle;  // Variation angle of rays through each pixel
     float focus_dist;    // Distance from camera lookfrom point to plane of perfect focus
+    color background;    
     void render(const hittable &world);
 };
