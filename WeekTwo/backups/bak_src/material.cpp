@@ -1,6 +1,10 @@
 #include "material.h"
 
-lambertian::lambertian(const color& albedo) : albedo(albedo){}
+lambertian::lambertian(const color& albedo) : tex(std::make_shared<solid_color>(albedo)) {}
+lambertian::lambertian(std::shared_ptr<texture> tex) : tex(tex) {}
+
+
+
 bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const 
 {
     vec3 scatter_dir = rec.normal + rand_unit_vec();
@@ -9,7 +13,7 @@ bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenu
         scatter_dir = rec.normal;
     }
     scattered = ray(rec.p, scatter_dir, ray_in.time());
-    attenuation = albedo;
+    attenuation = tex->value(rec.u, rec.v, rec.p);
     return true;
 }
 metal::metal(const color& albedo, float fuzz) : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
@@ -29,6 +33,17 @@ float dielectric::reflectance(float cosine, float refraction_index)
         r0 = r0*r0;
         return r0 + (1/r0)*std::powf((1-cosine), 5);
 }
+
+diffuse_light::diffuse_light(std::shared_ptr<texture> tex) : tex(tex) 
+{}
+diffuse_light::diffuse_light(const color& emit) : tex(std::make_shared<solid_color>(emit)) 
+{}
+  
+color diffuse_light::emitted(float u, float v, const point3& p) const 
+{
+    return tex->value(u, v, p);
+}
+
 bool dielectric::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const
 {
     attenuation = color(1.0, 1.0, 1.0);
@@ -53,3 +68,12 @@ bool dielectric::scatter(const ray& ray_in, const hit_record& rec, color& attenu
     return true;
 
 }
+
+bool isotropic::scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
+        const {
+            scattered = ray(rec.p, rand_unit_vec(), r_in.time());
+            attenuation = tex->value(rec.u, rec.v, rec.p);
+            return true;
+        }
+isotropic::isotropic(const color& albedo) : tex(std::make_shared<solid_color>(albedo)) {}
+isotropic::isotropic(std::shared_ptr<texture> tex) : tex(tex) {}

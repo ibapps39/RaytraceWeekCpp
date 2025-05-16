@@ -1,7 +1,5 @@
-
 #pragma once
 #include "rt_common.h"
-
 class interval 
 {
     public:
@@ -13,7 +11,11 @@ class interval
         bool contains(float x) const;
         bool surrounds(float x) const;
 
+        
+
         float clamp(float x) const;
         interval expand(float delta) const;
         static const interval empty, universe;
 };
+interval operator+(const interval& ival, float displacement);
+interval operator+(float displacement, const interval& ival);

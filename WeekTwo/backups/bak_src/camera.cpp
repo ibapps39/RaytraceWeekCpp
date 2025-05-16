@@ -45,22 +45,26 @@ color camera::ray_color(const ray &r, int depth, const hittable &world) const
     }
     
     hit_record rec;
-    if (world.hit(r, interval(0.001, infinity), rec))
-    {
+        // If the ray hits nothing, return the background color.
+        if (!world.hit(r, interval(0.001, infinity), rec))
+        {
+            return background;
+        }
+
         ray scattered;
         color attenuation;
-        if (rec.mat->scatter(r, rec, attenuation, scattered))
-        {
-            return attenuation * ray_color(scattered, depth-1, world);
-        }
-        return color(0,0,0);
-    }
+        // Remember Q + u + v, p = Q
+        color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
 
-    vec3 unit_direction = unit_vector(r.direction());
-    float a = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
+        if (!rec.mat->scatter(r, rec, attenuation, scattered))
+        {
+            return color_from_emission;
+        }
+
+        color color_from_scatter = attenuation * ray_color(scattered, depth-1, world);
+        return color_from_emission + color_from_scatter;
 }
-//Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
+// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 vec3 camera::sample_square() const
 {
     return vec3(rand_f() - 0.5f, rand_f() - 0.5f, 0);
