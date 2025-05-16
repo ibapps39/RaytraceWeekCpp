@@ -3,3 +3,4 @@
 /reference.ppm
 WeekTwo/build/obj
 WeekTwo/build/obj/*.o
+*.o
