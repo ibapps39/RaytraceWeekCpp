@@ -4,3 +4,5 @@
 WeekTwo/build/obj
 WeekTwo/build/obj/*.o
 *.o
+Raytrace Rest of Life/build/
+Raytrace Rest of Life/build/main

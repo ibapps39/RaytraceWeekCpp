@@ -2,21 +2,23 @@
 
 void camera::initialize()
 {
-    
+
     image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
-    
-    px_sample_scale = 1.0f / samples_per_px;
+
+    sqrt_spp = int(std::sqrtf(samples_per_px));
+    px_sample_scale = float(1.0f / (sqrt_spp * sqrt_spp));
+    recip_sqrt_spp = float(1.0f / sqrt_spp);
 
     camera_center = lookfrom;
 
-    cam_z = unit_vector(lookfrom-lookat);
+    cam_z = unit_vector(lookfrom - lookat);
     cam_x = unit_vector(cross(camera_up, cam_z));
     cam_y = cross(cam_z, cam_x); // already a unit vector since cam_z and cam_x are.
 
     // Determine viewport dimensions.
     camera_theta = (float)degrees_to_radians(vfov);
-    camera_height = std::tanf(camera_theta/2.0f);
+    camera_height = std::tanf(camera_theta / 2.0f);
     viewport_height = 2.0f * camera_height * focus_dist;
     viewport_width = viewport_height * (float(image_width) / image_height);
 
@@ -29,40 +31,40 @@ void camera::initialize()
     pixel_delta_y = viewport_y / image_height;
 
     // Calculate the location of the upper left pixel.
-    point3 viewport_upper_left = camera_center - (focus_dist*cam_z) - viewport_x/2.0f - viewport_y/2.0f;
+    point3 viewport_upper_left = camera_center - (focus_dist * cam_z) - viewport_x / 2.0f - viewport_y / 2.0f;
     pixel00_loc = viewport_upper_left + 0.5f * (pixel_delta_x + pixel_delta_y);
-     // Calculate the camera defocus disk basis vectors.
-     float defocus_radius = focus_dist * std::tanf(degrees_to_radians(defocus_angle / 2.0f));
-     def_disk_xr = cam_x * defocus_radius;
-     def_disk_yr = cam_y * defocus_radius;
+    // Calculate the camera defocus disk basis vectors.
+    float defocus_radius = focus_dist * std::tanf(degrees_to_radians(defocus_angle / 2.0f));
+    def_disk_xr = cam_x * defocus_radius;
+    def_disk_yr = cam_y * defocus_radius;
 }
 
 color camera::ray_color(const ray &r, int depth, const hittable &world) const
 {
     if (depth <= 0)
     {
-        return color(0,0,0);
+        return color(0, 0, 0);
     }
-    
+
     hit_record rec;
-        // If the ray hits nothing, return the background color.
-        if (!world.hit(r, interval(0.001, infinity), rec))
-        {
-            return background;
-        }
+    // If the ray hits nothing, return the background color.
+    if (!world.hit(r, interval(0.001, infinity), rec))
+    {
+        return background;
+    }
 
-        ray scattered;
-        color attenuation;
-        // Remember Q + u + v, p = Q
-        color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
+    ray scattered;
+    color attenuation;
+    // Remember Q + u + v, p = Q
+    color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
 
-        if (!rec.mat->scatter(r, rec, attenuation, scattered))
-        {
-            return color_from_emission;
-        }
+    if (!rec.mat->scatter(r, rec, attenuation, scattered))
+    {
+        return color_from_emission;
+    }
 
-        color color_from_scatter = attenuation * ray_color(scattered, depth-1, world);
-        return color_from_emission + color_from_scatter;
+    color color_from_scatter = attenuation * ray_color(scattered, depth - 1, world);
+    return color_from_emission + color_from_scatter;
 }
 // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
 vec3 camera::sample_square() const
@@ -76,43 +78,53 @@ point3 camera::defocus_sampling() const
     return camera_center + (p[0] * def_disk_xr) + (p[1] * def_disk_yr);
 }
 
-// Construct a camera ray originating from the origin and directed at randomly sampled point around the pixel location h, w.
-ray camera::get_ray(int h, int w) const
+vec3 camera::sample_square_stratified(int s_i, int s_j) const
 {
-        // get ideal square sample
-        vec3 offset = sample_square();
-        vec3 px_sample = pixel00_loc 
-                        + ((w + offset.x()) * pixel_delta_x)
-                        + ((h + offset.y()) * pixel_delta_y);
-        // vec3 ray_origin = camera_center;
-        vec3 ray_origin = (defocus_angle <= 0) ? camera_center : defocus_sampling();
-        vec3 ray_direction = px_sample - ray_origin;
-        float ray_time = rand_f();
-        return ray(ray_origin, ray_direction, ray_time);
+    // Returns the vector to a random point in the square sub-pixel specified by grid
+    // indices s_i and s_j, for an idealized unit square pixel [-.5,-.5] to [+.5,+.5].
+
+    auto px = float((s_i + rand_f()) * recip_sqrt_spp) - 0.5f;
+    auto py = float((s_j + rand_f()) * recip_sqrt_spp) - 0.5f;
+
+    return vec3(px, py, 0);
+}
+
+// Construct a camera ray originating from the origin and directed at randomly sampled point around the pixel location h, w.
+ray camera::get_ray(int i, int j, int s_i, int s_j) const
+{
+    // get ideal square sample
+    vec3 offset = sample_square_stratified(s_i, s_j);
+    vec3 px_sample = pixel00_loc + ((i + offset.x()) * pixel_delta_x) + ((j + offset.y()) * pixel_delta_y);
+    // vec3 ray_origin = camera_center;
+    vec3 ray_origin = (defocus_angle <= 0) ? camera_center : defocus_sampling();
+    vec3 ray_direction = px_sample - ray_origin;
+    float ray_time = rand_f();
+    return ray(ray_origin, ray_direction, ray_time);
 }
 void camera::render(const hittable &world)
 {
     initialize();
-    image_height = (image_height < 1) ? 1 : image_height;
-    viewport_width = viewport_height * (float(image_width) / image_height);
-    std::clog << "MAX_DEPTH: " << max_depth << std::endl;
-    std::cout << "P3" << std::endl;
-    std::cout << image_width << " " << image_height << std::endl;
-    std::cout << "255" << std::endl;
 
-    for (int h = 0; h < image_height; h++)
+    std::cout << "P3\n"
+              << image_width << ' ' << image_height << "\n255\n";
+
+    for (int j = 0; j < image_height; j++)
     {
-        std::clog << "\rScanlines remaining: " << (image_height - h) << ' ' << std::flush;
-        for (int w = 0; w < image_width; w++)
+        std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+        for (int i = 0; i < image_width; i++)
+        {
+            color pixel_color(0, 0, 0);
+            for (int s_j = 0; s_j < sqrt_spp; s_j++)
             {
-                color pixel_color(0,0,0);
-                for (int sample = 0; sample < samples_per_px; sample++)
+                for (int s_i = 0; s_i < sqrt_spp; s_i++)
                 {
-                    ray r = get_ray(h, w);
+                    ray r = get_ray(i, j, s_i, s_j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                write_color(std::cout, px_sample_scale*pixel_color); 
             }
+            write_color(std::cout, px_sample_scale * pixel_color);
+        }
     }
+
     std::clog << "\rDone.                 \n";
 }

@@ -20,6 +20,8 @@ class camera
 private:
     // Calculate the image height, and ensure that it's at least 1.
     int image_height;
+    int    sqrt_spp;             // Square root of number of samples per pixel
+    float recip_sqrt_spp;       // 1 / sqrt_spp
     // Viewport widths less than one are ok since they are real valued.
     float viewport_height;
     float viewport_width;
@@ -45,8 +47,9 @@ private:
     void initialize();
     color ray_color(const ray &r, int depth, const hittable &world) const;
     vec3 sample_square() const;
-    ray get_ray( int h, int w) const;
+    ray get_ray(int i, int j, int s_i, int s_j) const;
     point3 defocus_sampling() const;
+    vec3 sample_square_stratified(int s_i, int s_j) const;
 
 
 public:
