@@ -4,3 +4,4 @@
 WeekTwo/build/obj
 WeekTwo/build/obj/*.o
 *.o
+.DS_STORE
