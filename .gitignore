@@ -1,10 +1,10 @@
-/main
-/manual.ppm
-/reference.ppm
-WeekTwo/build/obj
-WeekTwo/build/obj/*.o
+# Ignore macOS metadata files
+**/.DS_Store
+
+# Ignore build artifacts
 *.o
-Raytrace Rest of Life/build/*
-Raytrace Rest of Life/build/main
-Raytrace Rest of Life/assets/.DS_Store
-Raytrace Rest of Life/.DS_Store
+main
+build/
+*/build/
+**/build/
+
