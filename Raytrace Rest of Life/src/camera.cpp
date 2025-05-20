@@ -74,9 +74,11 @@ color camera::ray_color(const ray &r, int depth, const hittable &world) const
     {
         return color_from_emission;
     }
-
+    float scattering_pdf = rec.mat->scatter_pdf(r, rec, scattered);
+    float pdf_val = scattering_pdf;
     // Recursively compute scattered color and combine with emission
-    color color_from_scatter = attenuation * ray_color(scattered, depth - 1, world);
+    color color_from_scatter = (attenuation * scattering_pdf * ray_color(scattered, depth-1, world)) / pdf_val;
+
     return color_from_emission + color_from_scatter;
 }
 

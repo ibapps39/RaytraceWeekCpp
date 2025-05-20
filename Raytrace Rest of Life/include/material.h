@@ -13,6 +13,11 @@ class material
         {
             return color(0,0,0);
         };
+        virtual float scatter_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const
+        {
+            return 0.0f;
+        }
+
 };
 
 class lambertian : public material {
@@ -23,6 +28,7 @@ class lambertian : public material {
         lambertian(const color& albedo);
         lambertian(std::shared_ptr<texture> tex);
         bool scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const override;
+        float scatter_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const override;
 };
 
 class metal : public material {
