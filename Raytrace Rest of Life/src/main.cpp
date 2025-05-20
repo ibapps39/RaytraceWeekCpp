@@ -10,13 +10,15 @@
 #include "texture.h"
 #include <iostream>
 #include <iomanip>
-#include "integrate.hpp"
+#include "integrate.h"
+#include "estimate.h"
 
 using namespace std;
 
 int main()
 {
     integrate_monty_avg();
+    //expir_est();
     //     hittable_list world;
 
     // auto red   = make_shared<lambertian>(color(.65, .05, .05));
