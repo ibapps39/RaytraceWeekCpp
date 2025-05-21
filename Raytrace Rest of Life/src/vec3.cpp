@@ -161,3 +161,15 @@ vec3 vec3::random()
 {
     return vec3(rand_f(), rand_f(), rand_f());
 }
+
+vec3 random_cosf_dir()
+{
+    float r1 = rand_f();
+    float r2 = rand_f();
+    float phi = 2.0f*pi*r1;
+    float x = std::cosf(phi)*std::sqrtf(r2);
+    float y = std::sinf(phi)*std::sqrtf(r2);
+    float z = std::sqrtf(1.0f-r2);
+
+    return vec3(x, y, z);
+}

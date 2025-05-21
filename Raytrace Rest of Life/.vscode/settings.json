@@ -53,7 +53,8 @@
         "algorithm": "cpp",
         "iostream": "cpp",
         "charconv": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "iomanip": "cpp"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }

@@ -7,7 +7,7 @@ lambertian::lambertian(std::shared_ptr<texture> tex) : tex(tex) {}
 
 bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const 
 {
-    vec3 scatter_dir = rec.normal + rand_unit_vec();
+    vec3 scatter_dir = random_on_hemisphere(rec.normal);
     if (scatter_dir.near_zero())
     {
         scatter_dir = rec.normal;
@@ -16,6 +16,11 @@ bool lambertian::scatter(const ray& ray_in, const hit_record& rec, color& attenu
     attenuation = tex->value(rec.u, rec.v, rec.p);
     return true;
 }
+float lambertian::scatter_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const
+{
+    return 1/(2.0f*pi);
+}
+
 metal::metal(const color& albedo, float fuzz) : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
 bool metal::scatter(const ray& ray_in, const hit_record& rec, color& attenuation, ray& scattered) const
 {
