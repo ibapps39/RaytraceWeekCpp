@@ -66,16 +66,17 @@ color camera::ray_color(const ray &r, int depth, const hittable &world) const
 
     ray scattered;
     color attenuation;
+    float pdf_val;
     // Get light emitted by the material at the hit point
     color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
 
     // If the material doesn't scatter, return only its emitted color
-    if (!rec.mat->scatter(r, rec, attenuation, scattered))
+    if (!rec.mat->scatter(r, rec, attenuation, scattered, pdf_val))
     {
         return color_from_emission;
     }
     float scattering_pdf = rec.mat->scatter_pdf(r, rec, scattered);
-    float pdf_val = scattering_pdf;
+    pdf_val = scattering_pdf;
     // Recursively compute scattered color and combine with emission
     color color_from_scatter = (attenuation * scattering_pdf * ray_color(scattered, depth-1, world)) / pdf_val;
 
